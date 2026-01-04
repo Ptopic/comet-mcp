@@ -51,6 +51,81 @@ You: "Use Comet to research the top AI frameworks in 2025"
 Claude: [connects to Comet, delegates research, monitors progress, returns results]
 ```
 
+## Local Development Setup
+
+If you want to clone this MCP server and make your own modifications, follow these steps:
+
+### 1. Clone and Set Up the Repository
+
+```bash
+# Clone your fork
+git clone https://github.com/YOUR-USERNAME/comet-mcp.git
+cd comet-mcp
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+```
+
+### 2. Configure Claude Code to Use Your Local Version
+
+Edit Claude Code's MCP configuration file at `~/.claude.json`:
+
+```json
+{
+  "mcpServers": {
+    "comet-mcp": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/comet-mcp/dist/index.js"],
+      "env": {}
+    }
+  }
+}
+```
+
+Replace `/absolute/path/to/comet-mcp` with the actual path where you cloned the repo.
+
+### 3. Restart Claude Code
+
+After updating the config, restart Claude Code to load your local MCP server.
+
+### 4. Development Workflow
+
+When making changes:
+
+```bash
+# Make your code changes in src/
+
+# Rebuild
+npm run build
+
+# Restart Claude Code to pick up changes
+```
+
+### 5. Testing Your Changes
+
+You can test the MCP server directly without Claude Code:
+
+```bash
+# Run the server
+node dist/index.js
+
+# Or use the MCP inspector for debugging
+npx @modelcontextprotocol/inspector node dist/index.js
+```
+
+The inspector gives you a UI to test MCP tools interactively.
+
+### Development Tips
+
+- Keep the terminal open where you run builds to see any TypeScript errors
+- Check Claude Code logs if the server doesn't connect (usually in `~/.claude/debug/`)
+- You can have multiple MCP servers configured - just give them different names in the config
+- The built files are in `dist/` directory (not `build/`)
+
 ## Tools
 
 | Tool | Description |
